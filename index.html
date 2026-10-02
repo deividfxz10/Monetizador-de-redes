@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialBoost - Monetize e Cresça suas Redes Sociais</title>
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #1e1e2f;
+            --light: #f4f6f9;
+            --success: #00b894;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e1e2f, #2d2b55);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: -30px auto 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Abas das Redes Sociais */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            background: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Formulário de Pedidos */
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary);
+        }
+
+        .price-box {
+            background: #eef2f5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .price-box span {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #008f72;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Monetize suas Redes Sociais</h1>
+        <p>Aumente seus números e alcance os requisitos de monetização rapidamente.</p>
+    </header>
+
+    <div class="container">
+        <!-- Navegação por Plataforma -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="setPlatform('instagram')">
+                <i class="fa-brands fa-instagram" style="color: #e1306c;"></i> Instagram
+            </button>
+            <button class="tab-btn" onclick="setPlatform('tiktok')">
+                <i class="fa-brands fa-tiktok" style="color: #000;"></i> TikTok
+            </button>
+            <button class="tab-btn" onclick="setPlatform('youtube')">
+                <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> YouTube
+            </button>
+        </div>
+
+        <!-- Card de Configuração do Serviço -->
+        <div class="card">
+            <form id="orderForm" onsubmit="processOrder(event)">
+                
+                <!-- Tipo de Serviço -->
+                <div class="form-group">
+                    <label for="service">Escolha o Serviço:</label>
+                    <select id="service" onchange="calculateTotal()">
+                        <option value="followers">Seguidores / Inscritos</option>
+                        <option value="likes">Curtidas</option>
+                        <option value="views">Visualizações / Horas assistidas</option>
+                        <option value="comments">Comentários Personalizados</option>
+                    </select>
+                </div>
+
+                <!-- Link do Perfil ou Vídeo -->
+                <div class="form-group">
+                    <label for="link">Link da Conta ou da Publicação:</label>
+                    <input type="url" id="link" placeholder="https://..." required>
+                </div>
+
+                <!-- Quantidade -->
+                <div class="form-group">
+                    <label for="quantity">Quantidade desejada:</label>
+                    <input type="number" id="quantity" value="1000" min="100" step="100" oninput="calculateTotal()">
+                </div>
+
+                <!-- Preço Estimado -->
+                <div class="price-box">
+                    <p>Total a Pagar:</p>
+                    <span id="totalPrice">R$ 15,00</span>
+                </div>
+
+                <!-- Botão de Ação -->
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-cart-shopping"></i> Impulsionar Agora
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SocialBoost - Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Lógica em JavaScript -->
+    <script>
+        let currentPlatform = 'instagram';
+
+        // Preços base por 1.000 unidades (exemplo de precificação)
+        const rates = {
+            instagram: { followers: 15, likes: 5, views: 2, comments: 25 },
+            tiktok: { followers: 18, likes: 6, views: 1, comments: 30 },
+            youtube: { followers: 45, likes: 12, views: 8, comments: 50 }
+        };
+
+        function setPlatform(platform) {
+            currentPlatform = platform;
+            
+            // Atualiza o estilo dos botões
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            const service = document.getElementById('service').value;
+            const quantity = parseInt(document.getElementById('quantity').value) || 0;
+            
+            // Pega o valor por 1000 da plataforma e serviço selecionados
+            const ratePerThousand = rates[currentPlatform][service];
+            
+            // Calcula o preço final
+            const total = (quantity / 1000) * ratePerThousand;
+
+            // Exibe o preço formatado em Real (BRL)
+            document.getElementById('totalPrice').innerText = total.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+        }
+
+        function processOrder(event) {
+            event.preventDefault();
+            const link = document.getElementById('link').value;
+            const service = document.getElementById('service').value;
+            const quantity = document.getElementById('quantity').value;
+            const price = document.getElementById('totalPrice').innerText;
+
+            alert(`Redirecionando para o pagamento!\n\nPlataforma: ${currentPlatform.toUpperCase()}\nServiço: ${service}\nQuantidade: ${quantity}\nTotal: ${price}\nLink: ${link}`);
+            
+            // Aqui você colocaria a integração com a API de Pagamento (Mercado Pago, Stripe, etc.)
+            // Exemplo: window.location.href = "https://link-de-pagamento.com";
+        }
+
+        // Inicializa o cálculo do preço ao carregar
+        calculateTotal();
+    </script>
+</body>
+</html>
